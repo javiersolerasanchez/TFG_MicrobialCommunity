@@ -6,8 +6,8 @@ plot <- read_delim("C:/Users/Javier/Desktop/Datos/Normal_con_P/atr2.9/plot.tsv",
                    "\t", escape_double = FALSE, trim_ws = TRUE)
 colnames(plot)[2]<- "H_stevensii"
 
-#La primera gráfica tiene fondo blanco y grid. La de abajo es transparente, para que al superponer 
-#en Inkscape no dé problemas.
+#La primera gráfica tiene fondo blanco y grid. La de abajo es transparente, para después editar con Inkscape 
+
 #Ese es el factor de conversión calculado para que se mantengan las unidades.
 organism <- ggplot(data = plot, mapping = aes(x = time)) + 
   geom_line(aes(y = Halobacillus_sp*5.23790729, colour="Halobacillus_sp"), size=1, alpha=0.8) +
@@ -38,7 +38,7 @@ metabolites <- ggplot(data = plot, mapping = aes(x = time)) +
                                  "Fosfato"="grey")) +
   scale_x_continuous(name="Time", labels=waiver()) +
   scale_y_continuous(name="Metabolites (mmol/L)", position="right") +
-  #Este tema de por sí tiene el fondo transparente. Las líneas de abajo eliminan el grid y el fondo(si lo tuviera)
+
   theme_minimal() +
   theme(panel.grid.major = element_blank(),
         panel.grid.minor = element_blank()) +
