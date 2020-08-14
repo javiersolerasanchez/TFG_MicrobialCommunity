@@ -7,6 +7,7 @@
 # Author: Jorge Carrasco Muriel
 # Date: 30/04/2019
 # Modified: 04/11/2019 by Beatriz Garcia Jimenez
+# Modified: 12/03/2020 by Javier Solera Sánchez
 
 import matplotlib as MPL
 MPL.use('Agg') # change backend of display. I'm not really sure if this will work on a container
@@ -137,11 +138,10 @@ def runn(md = ""):
             for k in mper["MEDIA"]: # not needed at all... #Realizamos cambios en el medio.
                 if mper["MEDIA"][k] == 0: #Si no hay de un metabolito, cambiamos su valor en el cons.media
                     cons.media[k] = 0
-            cons.add_mets(mper["MEDIA"], True) #El resto de metabolitos los añadimos (supongo que se sustituyen)
+            cons.add_mets(mper["MEDIA"], True) #El resto de metabolitos los añadimos 
         pers.append(mper["PERTURBATION"]) #Metemos en esa lista el valor de la perturbación al final de cada vuelta de bucle.
         # 5) run it
-        t_pers.append(cons.T[-1]) #Esto supongo que es un contador, con cada vuelta se mete el siguiente número, por lo que vamos 
-        #creando una lista en t_pers de 0,1,2...
+        t_pers.append(cons.T[-1]) 
         cons.run(verbose=False, plot=False, maxT = intervl+cons.T[-1], integrator = "FEA",
         stepChoiceLevel=(0.00027,0.5,100000.), outp = f'{md}/{md}_plot.png', outf = f'{md}/plot.tsv')
         it += 1 
@@ -153,9 +153,9 @@ def runn(md = ""):
     with open(f'{md}/txpers.p', 'wb') as f:
         pickle.dump(txpers, f)
     tsv_filter(f'{md}/plot.tsv', f'{md}/fluxes.tsv', txpers, inplace= False, v = cons.v) #plot.tsv es el output de correr cons. fluxes.tsv se crea al instanciar Consortium.
-    if os.path.isfile(f'{md}/fluxes_filtered.tsv'): #Si se ha creado ese archivo filtrado, bórrame el de antes
+    if os.path.isfile(f'{md}/fluxes_filtered.tsv'): 
         os.unlink(f'{md}/fluxes.tsv')
-    mmodes.vis.plot_comm(cons) #ploteamos los resultados
+    mmodes.vis.plot_comm(cons) 
 
     lock.acquire()
     print(f"\033[1;32;40mProcess with directory {md} out!\033[0m")
@@ -182,6 +182,3 @@ if __name__ == "__main__":
 ## cons.media contiene todos los metabolitos de los GEM con sus respectivas concentraciones. Si no metemos ningún medio, las concentraciones por defecto
 ## son cero, al meter el medio, las concentraciones de aquellos metabolitos que están en el medio cambian.
 
-#### DUDAS ####
-#cons.T[-1] qué es.
-#línea 146, qué se quiere hacer con eso.
