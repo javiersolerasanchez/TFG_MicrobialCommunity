@@ -2,7 +2,7 @@
 
 # Script to take the output generated on atr2.
 
-#MODIFIED: 03/05/2020 Javier Solera Sánchez
+#MODIFIED: 03/05/2020 by Javier Solera Sánchez
 
 #Este script se ejecuta desde el directorio que contiene a su vez el directorio con cada uno de los experimentos a parsear.
 #Se llama al script teniendo como único argumento la carpeta que contiene todas las simulaciones.
