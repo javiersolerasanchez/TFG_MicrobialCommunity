@@ -7,6 +7,7 @@
 # Author: Jorge Carrasco Muriel
 # Date: 30/04/2019
 # Modified: 04/11/2019 by Beatriz Garcia Jimenez
+# Modified: 12/03/2020 by Javier Solera Sánchez
 
 import matplotlib as MPL
 MPL.use('Agg') # change backend of display. I'm not really sure if this will work on a container
@@ -53,7 +54,7 @@ def runn(md = ""):
     # BGJ: add 2 additional values to the biomasses vector, that could be only one, both ones or any.
     
     #Este bloque lo que hace es que de manera aleatoria genera unas biomasas iniciales distintas para cada microorganismo 
-    #Para que cada experimento sea distinto. Por ello, siempre habrá athrobacter (cantidad aleatoria), pero las cantidades de las otras dos
+    #Para que cada experimento sea distinto. Por ello, siempre habrá arthobacter (cantidad aleatoria), pero las cantidades de las otras dos
     #Las ponemos de manera aleatoria, poniendo solo uno de ellos, los dos o ninguno. 
     chosen = random.random() #Generamos un número aleatorio entre cero y uno.
     if chosen > 0.75:
@@ -145,18 +146,17 @@ def runn(md = ""):
         cons.run(verbose=False, plot=False, maxT = intervl+cons.T[-1], integrator = "FEA",
         stepChoiceLevel=(0.00027,0.5,100000.), outp = f'{md}/{md}_plot.png', outf = f'{md}/plot.tsv')
         it += 1 
-    txpers = { t_pers[i]: pers[i] for i in range(len(t_pers)) } #creamos un diccionario een el que se guardan las perturbaciones en el orden que suceden (no termino de entenderlo)
+    txpers = { t_pers[i]: pers[i] for i in range(len(t_pers)) } #creamos un diccionario en el que se guardan las perturbaciones en el orden que suceden (no termino de entenderlo)
 
     # 6. Save simulation
     with open(f'{md}/cons.p', 'wb') as f:
         pickle.dump(cons, f) #El pickle es para guardar objetos en ficheros
     with open(f'{md}/txpers.p', 'wb') as f:
         pickle.dump(txpers, f)
-    tsv_filter(f'{md}/plot.tsv', f'{md}/fluxes.tsv', txpers, inplace= False, v = cons.v) #plot.tsv es el output de correr cons. fluxes.tsv se crea al instanciar Consortium.
-    if os.path.isfile(f'{md}/fluxes_filtered.tsv'): #Si se ha creado ese archivo filtrado, bórrame el de antes
+    tsv_filter(f'{md}/plot.tsv', f'{md}/fluxes.tsv', txpers, inplace= False, v = cons.v) 
+    if os.path.isfile(f'{md}/fluxes_filtered.tsv'): 
         os.unlink(f'{md}/fluxes.tsv')
-    mmodes.vis.plot_comm(cons) #ploteamos los resultados
-
+    mmodes.vis.plot_comm(cons) 
     lock.acquire()
     print(f"\033[1;32;40mProcess with directory {md} out!\033[0m")
     lock.release()
@@ -182,6 +182,4 @@ if __name__ == "__main__":
 ## cons.media contiene todos los metabolitos de los GEM con sus respectivas concentraciones. Si no metemos ningún medio, las concentraciones por defecto
 ## son cero, al meter el medio, las concentraciones de aquellos metabolitos que están en el medio cambian.
 
-#### DUDAS ####
-#cons.T[-1] qué es.
-#línea 146, qué se quiere hacer con eso.
+
